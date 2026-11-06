@@ -2,7 +2,7 @@
   "name": "audio-preview-vscode",
   "displayName": "Audio Preview & Loudness Meter",
   "description": "Play WAV, MP3, FLAC, Ogg, Opus and M4A in VS Code with a waveform, spectrogram, A-B loop and LUFS loudness. Offline.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "zovo",
   "license": "MIT",
   "icon": "icon.png",
@@ -152,6 +152,11 @@
           "default": "ffmpeg",
           "scope": "machine",
           "description": "Your own ffmpeg, used only when you click 'Decode with ffmpeg' on a file VS Code cannot decode (for example AAC in M4A). Nothing is bundled or downloaded."
+        },
+        "audioPreview.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask one time for a Marketplace rating after you have used Audio Preview for a few days. You can answer \"Later\" or \"Don't ask again\". Nothing is sent anywhere."
         }
       }
     },

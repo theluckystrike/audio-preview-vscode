@@ -10,6 +10,9 @@ const { readMetadata } = require('./core/metadata');
 const { streamWav } = require('./core/wav');
 const { Analyzer } = require('./core/analysis');
 const { validateWebviewMessage, planDecode, publicMeta, encodeResult } = require('./core/protocol');
+const { createRatingPrompt } = require('./rate');
+
+let rating = { success() {} };
 
 const VIEW_TYPE = 'audioPreview.player';
 
@@ -96,6 +99,7 @@ class AudioEditorProvider {
     const post = m => { if (!disposed) panel.webview.postMessage(m); };
     const cancelled = () => disposed;
 
+    let counted = false; // one success per opened tab, for the rating prompt
     let original = null; // metadata of the file itself, kept when ffmpeg made a WAV copy
     const showFile = async (fileUri, converted) => {
       const t0 = Date.now();
@@ -107,6 +111,7 @@ class AudioEditorProvider {
         if (!converted) original = meta;
         const shown = converted && original ? { ...original, sampleRate: meta.sampleRate, channels: meta.channels, totalFrames: meta.totalFrames, info: [...original.info, ['Decoded by', 'your ffmpeg (cached WAV copy)']] } : meta;
         post({ type: 'meta', meta: publicMeta(shown, name), plan, src: panel.webview.asWebviewUri(fileUri).toString(), converted: !!converted, openMs: Date.now() - t0 });
+        if (!counted) { counted = true; rating.success(); }
         if (plan.mode === 'host') {
           const t1 = Date.now();
           const r = await analyzeWav(src, meta, pct => post({ type: 'progress', pct }), cancelled);
@@ -149,6 +154,7 @@ class AudioEditorProvider {
 }
 
 function activate(context) {
+  rating = createRatingPrompt({ vscode, context, extensionId: 'zovo.audio-preview-vscode', section: 'audioPreview', message: (n) => `Audio Preview has opened ${n} files for you. A rating helps other people find it.` });
   context.subscriptions.push(
     vscode.window.registerCustomEditorProvider(VIEW_TYPE, new AudioEditorProvider(context), {
       supportsMultipleEditorsPerDocument: true,

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 (2026-11-06)
+
+- Audio Preview asks one time for a Marketplace rating. It counts each success (an opened audio file). After 5 of them, and no sooner than 2 days after the first, it shows a small message with "Rate it", "Later" and "Don't ask again". "Later" waits for 20 more, at most two more times. It never shows in your first session, more than once per session, when the window is not focused, or in a remote or untrusted workspace.
+- New setting `audioPreview.askForRating` (default `true`) turns it off. Nothing is sent anywhere; "Rate it" only opens the review page in your browser.
+
 ## 0.1.0 (2026-11-06)
 
 First release.

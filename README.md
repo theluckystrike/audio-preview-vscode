@@ -72,6 +72,7 @@ If ffmpeg is installed, a Decode with ffmpeg button appears. One click converts 
 | `audioPreview.maxDecodedMB` | 600 | Compressed files are decoded whole. Above this size of decoded samples (about 28 minutes of 44.1 kHz stereo) the file only plays |
 | `audioPreview.maxRemoteFileMB` | 512 | Files in remote or virtual workspaces are read whole |
 | `audioPreview.ffmpegPath` | `ffmpeg` | Your own ffmpeg for AAC files. Nothing is bundled or downloaded |
+| `audioPreview.askForRating` | `true` | Ask one time for a Marketplace rating, after 5 files and 2 days. Turn it off with `false` |
 
 ## Privacy and safety
 

@@ -11,12 +11,13 @@ const { FIX } = require('./helpers');
 const root = path.join(__dirname, '..');
 const registered = { editors: [], commands: {} };
 let clipboard = '';
+const settings = {};
 const mkUri = p => ({ scheme: 'file', path: p, fsPath: p, with(o) { return mkUri(o.path || p); } });
 const vscodeMock = {
   Uri: { joinPath: (u, ...p) => mkUri(path.join(u.fsPath || u.path, ...p)), file: mkUri },
   window: { registerCustomEditorProvider: (id, provider) => { registered.editors.push({ id, provider }); return { dispose() {} }; } },
   commands: { registerCommand: (id, fn) => { registered.commands[id] = fn; return { dispose() {} }; }, executeCommand: async () => {} },
-  workspace: { getConfiguration: () => ({ get: (_k, d) => d }), fs: {}, isTrusted: true },
+  workspace: { getConfiguration: () => ({ get: (k, d) => (k in settings ? settings[k] : d) }), fs: {}, isTrusted: true },
   env: { clipboard: { writeText: async t => { clipboard = t; } } },
 };
 const origLoad = Module._load;
@@ -153,4 +154,31 @@ test('a 30 MB WAV: the header shows before the samples, with progress in between
   assert.ok(Math.abs(a.result.stats.peakDb - 20 * Math.log10(3276 / 32768)) < 0.01);
   f.dispose();
   fs.unlinkSync(p);
+});
+
+// ---------- support links (Sponsor, More free viewers) ----------
+test('support: package.json has the sponsor field, the two commands and the setting', () => {
+  const pkg = require('../package.json');
+  const support = require('../src/support');
+  assert.strictEqual(pkg.sponsor.url, 'https://github.com/sponsors/theluckystrike');
+  assert.strictEqual(pkg.sponsor.url, support.sponsorUrl());
+  const ids = pkg.contributes.commands.map(c => c.command);
+  assert.ok(ids.includes('audioPreview.supportDeveloper') && ids.includes('audioPreview.moreViewers'));
+  const props = Object.assign({}, ...[].concat(pkg.contributes.configuration).map(c => c.properties));
+  assert.strictEqual(props['audioPreview.showSupportLinks'].default, true);
+  assert.ok(support.otherProducts('zovo.audio-preview-vscode').every(x => x.id !== 'zovo.audio-preview-vscode'));
+});
+
+test('support: the footer shows by default and audioPreview.showSupportLinks=false hides it', async () => {
+  try {
+    for (const [value, shown] of [[undefined, true], [false, false]]) {
+      if (value === undefined) delete settings.showSupportLinks; else settings.showSupportLinks = value;
+      const f = await open('sweep-44k-s16.wav');
+      const html = f.panel.webview.html;
+      assert.strictEqual(/id="zovo-support"/.test(html), shown, String(value));
+      assert.strictEqual(html.includes('command:audioPreview.moreViewers'), shown);
+      assert.deepStrictEqual(f.panel.webview.options.enableCommandUris, ['audioPreview.supportDeveloper', 'audioPreview.moreViewers', 'workbench.action.openSettings']);
+      f.dispose();
+    }
+  } finally { delete settings.showSupportLinks; }
 });

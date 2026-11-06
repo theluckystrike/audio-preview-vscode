@@ -12,3 +12,4 @@ images/wav-sweep.png
 images/opus.png
 images/m4a-aac-message.png
 package-lock.json
+.github/**

@@ -2,7 +2,7 @@
   "name": "audio-preview-vscode",
   "displayName": "Audio Preview & Loudness Meter",
   "description": "Play WAV, MP3, FLAC, Ogg, Opus and M4A in VS Code with a waveform, spectrogram, A-B loop and LUFS loudness. Offline.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "zovo",
   "license": "MIT",
   "icon": "icon.png",
@@ -109,6 +109,16 @@
         "command": "audioPreview.openWith",
         "title": "Open in Audio Preview",
         "category": "Audio Preview"
+      },
+      {
+        "command": "audioPreview.supportDeveloper",
+        "title": "Support the developer",
+        "category": "Audio Preview"
+      },
+      {
+        "command": "audioPreview.moreViewers",
+        "title": "More free viewers",
+        "category": "Audio Preview"
       }
     ],
     "menus": {
@@ -157,6 +167,11 @@
           "type": "boolean",
           "default": true,
           "description": "Ask one time for a Marketplace rating after you have used Audio Preview for a few days. You can answer \"Later\" or \"Don't ask again\". Nothing is sent anywhere."
+        },
+        "audioPreview.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Sponsor and More free viewers links at the bottom of the audio view. The change shows in files you open next. Nothing is sent anywhere."
         }
       }
     },
@@ -226,5 +241,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/theluckystrike/audio-preview-vscode"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike"
   }
 }

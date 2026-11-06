@@ -11,6 +11,7 @@ const { streamWav } = require('./core/wav');
 const { Analyzer } = require('./core/analysis');
 const { validateWebviewMessage, planDecode, publicMeta, encodeResult } = require('./core/protocol');
 const { createRatingPrompt } = require('./rate');
+const { registerSupport, commandUris, showLinks } = require('./support');
 
 let rating = { success() {} };
 
@@ -86,13 +87,15 @@ class AudioEditorProvider {
     const media = vscode.Uri.joinPath(ctx.extensionUri, 'media');
     const cacheUri = vscode.Uri.joinPath(ctx.globalStorageUri, 'ffmpeg-cache');
     const folder = uri.with({ path: path.posix.dirname(uri.path) });
-    panel.webview.options = { enableScripts: true, localResourceRoots: [dist, media, folder, cacheUri] };
+    // Command links are limited to the two support commands and the settings page (footer "Hide" link).
+    panel.webview.options = { enableScripts: true, enableCommandUris: commandUris('audioPreview'), localResourceRoots: [dist, media, folder, cacheUri] };
     const name = path.posix.basename(uri.path);
     panel.webview.html = buildHtml({
       cspSource: panel.webview.cspSource,
       scriptUri: panel.webview.asWebviewUri(vscode.Uri.joinPath(dist, 'webview.js')).toString(),
       styleUri: panel.webview.asWebviewUri(vscode.Uri.joinPath(media, 'webview.css')).toString(),
       title: name,
+      showSupportLinks: showLinks(vscode, 'audioPreview'),
     });
 
     let disposed = false;
@@ -154,6 +157,7 @@ class AudioEditorProvider {
 }
 
 function activate(context) {
+  registerSupport({ vscode, context, prefix: 'audioPreview', selfId: 'zovo.audio-preview-vscode' });
   rating = createRatingPrompt({ vscode, context, extensionId: 'zovo.audio-preview-vscode', section: 'audioPreview', message: (n) => `Audio Preview has opened ${n} files for you. A rating helps other people find it.` });
   context.subscriptions.push(
     vscode.window.registerCustomEditorProvider(VIEW_TYPE, new AudioEditorProvider(context), {

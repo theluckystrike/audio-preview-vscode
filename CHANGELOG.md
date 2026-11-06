@@ -5,6 +5,8 @@
 - A small line under the player has two links, "Sponsor" (GitHub Sponsors) and "More free viewers". The new setting `audioPreview.showSupportLinks` (default `true`) hides it, and so does the "Hide" link next to them. There is no popup, and nothing is sent anywhere.
 - New commands "Audio Preview: Support the developer" and "Audio Preview: More free viewers". The second one lists the other Zovo extensions and installs only the one you pick. Ones that are not on the Marketplace yet open their GitHub page.
 - The listing gets a Sponsor button. The README has a short Support section and lists all Zovo extensions.
+- The "More free viewers" list and the README list now show the 15 Zovo extensions on the Marketplace under their current names, and 11 that are coming soon.
+- Extensions for related files now come first, starting with MP4 Video Player & Video Preview with Sound.
 
 ## 0.1.1 (2026-11-06)
 

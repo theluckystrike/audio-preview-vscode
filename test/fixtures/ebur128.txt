@@ -1,0 +1,3 @@
+sweep-44k-s16.wav -8.2
+tone-1k-48k-s24.wav -20.0
+night-loop.flac -13.5

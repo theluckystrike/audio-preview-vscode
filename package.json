@@ -1,0 +1,225 @@
+{
+  "name": "audio-preview-vscode",
+  "displayName": "Audio Preview & Loudness Meter",
+  "description": "Play WAV, MP3, FLAC, Ogg, Opus and M4A in VS Code with a waveform, spectrogram, A-B loop and LUFS loudness. Offline.",
+  "version": "0.1.0",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#120E2A",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=18"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "audio",
+    "audio preview",
+    "audio player",
+    "wav",
+    "mp3",
+    "flac",
+    "ogg",
+    "opus",
+    "m4a",
+    "aac",
+    "waveform",
+    "spectrogram",
+    "lufs",
+    "loudness",
+    "ebu r128",
+    "peak",
+    "rms",
+    "metadata",
+    "id3",
+    "tags",
+    "sound",
+    "music",
+    "podcast",
+    "game audio",
+    "sample rate",
+    "bit depth",
+    "loop",
+    "playback speed",
+    "audio analysis",
+    "offline"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "The ffmpeg fallback is off in untrusted workspaces.",
+      "restrictedConfigurations": [
+        "audioPreview.ffmpegPath"
+      ]
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "audioPreview.player",
+        "displayName": "Audio Preview & Loudness Meter",
+        "selector": [
+          {
+            "filenamePattern": "*.wav"
+          },
+          {
+            "filenamePattern": "*.wave"
+          },
+          {
+            "filenamePattern": "*.mp3"
+          },
+          {
+            "filenamePattern": "*.flac"
+          },
+          {
+            "filenamePattern": "*.ogg"
+          },
+          {
+            "filenamePattern": "*.oga"
+          },
+          {
+            "filenamePattern": "*.opus"
+          },
+          {
+            "filenamePattern": "*.m4a"
+          },
+          {
+            "filenamePattern": "*.aac"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "audioPreview.openWalkthrough",
+        "title": "Get Started",
+        "category": "Audio Preview"
+      },
+      {
+        "command": "audioPreview.openWith",
+        "title": "Open in Audio Preview",
+        "category": "Audio Preview"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "audioPreview.openWith",
+          "when": "resourceExtname =~ /\\.(wav|wave|mp3|flac|ogg|oga|opus|m4a|aac|mp4)$/i",
+          "group": "navigation@9"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "audioPreview.openWith",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Audio Preview",
+      "properties": {
+        "audioPreview.maxWavMB": {
+          "type": "number",
+          "default": 2048,
+          "minimum": 1,
+          "description": "WAV files are streamed in 2 MB chunks for the waveform, spectrogram and loudness. Larger files only play and show their header."
+        },
+        "audioPreview.maxDecodedMB": {
+          "type": "number",
+          "default": 600,
+          "minimum": 16,
+          "description": "MP3, FLAC, Ogg, Opus and M4A files are decoded whole in the webview. If the decoded samples would be larger than this, the file only plays and shows its header. 600 MB is about 28 minutes of 44.1 kHz stereo."
+        },
+        "audioPreview.maxRemoteFileMB": {
+          "type": "number",
+          "default": 512,
+          "minimum": 1,
+          "description": "Files in remote or virtual workspaces are read whole. Larger files show a message."
+        },
+        "audioPreview.ffmpegPath": {
+          "type": "string",
+          "default": "ffmpeg",
+          "scope": "machine",
+          "description": "Your own ffmpeg, used only when you click 'Decode with ffmpeg' on a file VS Code cannot decode (for example AAC in M4A). Nothing is bundled or downloaded."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "audioPreview.start",
+        "title": "Get started with Audio Preview",
+        "description": "Play audio files, set a loop and read their loudness without leaving VS Code.",
+        "steps": [
+          {
+            "id": "open",
+            "title": "Open an audio file",
+            "description": "Click a .wav, .mp3, .flac, .ogg, .opus or .m4a file in the Explorer. It opens with the header, tags, waveform and spectrogram.\n[Find an audio file](command:workbench.action.quickOpen?%5B%22.wav%22%5D)",
+            "media": {
+              "image": "images/flac-loop.png",
+              "altText": "A FLAC file open in Audio Preview with waveform, spectrogram, loop region and loudness."
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.quickOpen"
+            ]
+          },
+          {
+            "id": "loop",
+            "title": "Loop a region and change speed",
+            "description": "Drag across the waveform to set a loop, or press [ and ] at the playhead. Pick a speed from 0.25x to 2x; the pitch stays the same.",
+            "media": {
+              "markdown": "walkthrough/loop.md"
+            }
+          },
+          {
+            "id": "loudness",
+            "title": "Read the loudness",
+            "description": "The Loudness panel shows integrated, short-term and momentary LUFS, sample peak, RMS and clipped samples. Copy stats puts them on the clipboard.",
+            "media": {
+              "markdown": "walkthrough/loudness.md"
+            }
+          },
+          {
+            "id": "settings",
+            "title": "Limits and the ffmpeg fallback",
+            "description": "Set the size limits for large files, and the path of your own ffmpeg for AAC files.\n[Open settings](command:workbench.action.openSettings?%5B%22audioPreview%22%5D)",
+            "media": {
+              "markdown": "walkthrough/settings.md"
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.openSettings"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.js --production",
+    "test": "node scripts/build.js --production && node --test \"test/*.test.js\"",
+    "samples": "zsh scripts/make-samples.sh test/fixtures",
+    "package": "npm run build && npx -y @vscode/vsce package --no-dependencies -o dist/"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "opus-decoder": "0.7.12"
+  },
+  "homepage": "https://github.com/theluckystrike/audio-preview-vscode#readme",
+  "bugs": {
+    "url": "https://github.com/theluckystrike/audio-preview-vscode/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/audio-preview-vscode"
+  }
+}

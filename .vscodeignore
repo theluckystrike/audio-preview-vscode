@@ -1,0 +1,14 @@
+src/**
+test/**
+scripts/**
+node_modules/**
+**/*.map
+icon.svg
+.gitignore
+dist/*.vsix
+*.vsix
+images/*.html
+images/wav-sweep.png
+images/opus.png
+images/m4a-aac-message.png
+package-lock.json

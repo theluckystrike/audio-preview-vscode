@@ -1,0 +1,72 @@
+[
+ {
+  "name": "night-loop.flac",
+  "type": "decoded",
+  "how": "webaudio",
+  "ms": 74,
+  "integrated": -13.457802297754045,
+  "playable": true,
+  "note": "",
+  "wallMs": 507
+ },
+ {
+  "name": "sweep-44k-s16.wav",
+  "type": "decoded",
+  "how": "host",
+  "ms": 0,
+  "integrated": -8.212,
+  "playable": true,
+  "note": "",
+  "wallMs": 502
+ },
+ {
+  "name": "night-loop.opus",
+  "type": "decoded",
+  "how": "wasm",
+  "ms": 106,
+  "integrated": -13.55217652373803,
+  "playable": true,
+  "note": "",
+  "wallMs": 505
+ },
+ {
+  "name": "night-loop.mp3",
+  "type": "decoded",
+  "how": "webaudio",
+  "ms": 89,
+  "integrated": -14.087090208375807,
+  "playable": true,
+  "note": "",
+  "wallMs": 755
+ },
+ {
+  "name": "night-loop.ogg",
+  "type": "decoded",
+  "how": "webaudio",
+  "ms": 76,
+  "integrated": -13.650719745859949,
+  "playable": true,
+  "note": "",
+  "wallMs": 756
+ },
+ {
+  "name": "night-loop.aac",
+  "type": "decoded",
+  "how": "failed",
+  "ms": 0,
+  "integrated": null,
+  "playable": false,
+  "note": "VS Code cannot decode AAC-LC (ADTS) audio: its Chromium build ships without that decoder (Unsupported configuration. Check isConfigSupported() prior to calling configure().). The file details and tags are below.",
+  "wallMs": 3527
+ },
+ {
+  "name": "night-loop.m4a",
+  "type": "decoded",
+  "how": "failed",
+  "ms": 0,
+  "integrated": null,
+  "playable": false,
+  "note": "VS Code cannot decode AAC-LC audio: its Chromium build ships without that decoder (Unsupported configuration. Check isConfigSupported() prior to calling configure().). The file details and tags are below.",
+  "wallMs": 4275
+ }
+]

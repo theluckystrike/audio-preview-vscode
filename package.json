@@ -63,6 +63,14 @@
     "virtualWorkspaces": true
   },
   "contributes": {
+    "configurationDefaults": {
+      "workbench.editorAssociations": {
+        "*.wav": "audioPreview.player",
+        "*.mp3": "audioPreview.player",
+        "*.ogg": "audioPreview.player",
+        "*.oga": "audioPreview.player"
+      }
+    },
     "customEditors": [
       {
         "viewType": "audioPreview.player",

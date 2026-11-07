@@ -13,8 +13,9 @@ function escapeAttr(s) {
  */
 function buildHtml(p) {
   const n = p.nonce || crypto.randomBytes(24).toString('base64url');
-  // In the page flow under the player, so it never covers the transport controls.
-  const footer = footerHtml('audioPreview', p.showSupportLinks !== false, '');
+  // Pinned to the bottom right like the other Zovo viewers, so it shows without scrolling on a long page.
+  // The body has 28px bottom padding, so the footer never covers the last line of the page.
+  const footer = footerHtml('audioPreview', p.showSupportLinks !== false, 'zovo-support-fixed');
   const csp = [
     "default-src 'none'", `style-src ${p.cspSource} 'nonce-${n}'`, `script-src 'nonce-${n}' 'wasm-unsafe-eval'`, `img-src ${p.cspSource} data: blob:`,
     `media-src ${p.cspSource} blob:`, `connect-src ${p.cspSource}`, `font-src ${p.cspSource}`,
@@ -26,7 +27,7 @@ function buildHtml(p) {
 <meta http-equiv="Content-Security-Policy" content="${csp}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${escapeAttr(p.styleUri)}">
-${footer ? `<style nonce="${n}">${FOOTER_CSS}\n.zovo-support{padding:14px 0 0}</style>` : ''}
+${footer ? `<style nonce="${n}">${FOOTER_CSS}</style>` : ''}
 <title>${escapeAttr(p.title)}</title>
 </head>
 <body>

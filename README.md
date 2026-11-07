@@ -1,4 +1,4 @@
-# Audio Preview & Loudness Meter
+# Audio Player & WAV Player (MP3, FLAC, LUFS)
 
 [![VS Code Marketplace installs](https://img.shields.io/visual-studio-marketplace/i/zovo.audio-preview-vscode?label=VS%20Code%20installs)](https://marketplace.visualstudio.com/items?itemName=zovo.audio-preview-vscode)
 [![Open VSX version](https://img.shields.io/open-vsx/v/zovo/audio-preview-vscode?label=Open%20VSX)](https://open-vsx.org/extension/zovo/audio-preview-vscode)

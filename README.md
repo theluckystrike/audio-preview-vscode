@@ -15,6 +15,13 @@ Click a WAV, MP3, FLAC, Ogg or Opus file and play it with a waveform, a spectrog
 - It plays Opus, which VS Code can't. VS Code's built-in Chromium has no Opus decoder, so the extension ships libopus compiled to WebAssembly (85 KB, MIT/BSD). FLAC, MP3, Ogg Vorbis and WAV use the decoder VS Code already has.
 - It's for checking files, not editing them. Loop a region, slow it to 0.5x without changing the pitch, and read the sample rate, bit depth, codec and tags. Nothing is written back to the file.
 
+## Teams and companies
+
+- Zovo Pro Team is the company licence: USD 59 once for a team of 5, one key, the Pro tools in every Zovo extension that has them. [See Zovo Pro Team](https://license.zovo.one/buy/zovo-pro-team?client_reference_id=readme-audio)
+- Commercial use is allowed.
+- The key is checked on your computer, so it works offline. No account and no subscription.
+- Invoice with your company name and tax ID on request: support@zovo.one.
+
 ## Quick start
 
 1. Install Audio Preview & Loudness Meter.
